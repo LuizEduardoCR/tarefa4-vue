@@ -1,20 +1,39 @@
 <script setup>
-import {ref} from 'vue'
+import { ref, computed } from 'vue'
 
-const listaCidades = ['São Paulo',
+const cidadesLista = ref(['São Paulo',
   'Rio de Janeiro',
   'Belo Horizonte',
   'Salvador',
   'Fortaleza',
-  'Curitiba', 
-  'Manaus', 
-  'Recife', 
+  'Curitiba',
+  'Manaus',
+  'Recife',
   'Porto Alegre',
-  'Brasília',]
+  'Brasília',
+])
+
+
+const novaCidade = ref('')
+
+function adicionar() {
+  cidadesLista.value.push(novaCidade.value)
+  novaCidade.value = ''
+}
+
+function remover(index) {
+  cidadesLista.value.splice(index, 1)
+}
+const cidadesOrdenadas = computed(() => {
+  return cidadesLista.value.sort();
+})
 </script>
 
 <template>
+ <button @click="remover(index)">Remover</button>
+  <input type="text" v-model="novaCidade">
+  <button @click="adicionar">Adicionar</button>
   <ul>
-    <li v-for="(listaCidades, index) in listaCidades" :key="index"> {{ listaCidades }}</li>
+    <li v-for="(cidade, index) in cidadesOrdenadas" :key="index">{{ cidade }}</li>
   </ul>
 </template>
